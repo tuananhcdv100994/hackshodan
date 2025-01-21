@@ -1,0 +1,63 @@
+1. Cú pháp tìm kiếm cơ bản
+Tìm các IP camera với giao diện quản trị hoặc dịch vụ công khai:
+
+plaintext
+Sao chép
+Chỉnh sửa
+"IP Camera" country:KH
+"IP Camera": Tìm các thiết bị được xác định là camera IP.
+country:KH: Lọc theo quốc gia Cambodia (thay bằng mã quốc gia khác nếu cần).
+2. Thêm bộ lọc cổng mở phổ biến
+Các IP camera thường sử dụng các cổng như:
+
+80, 8080: HTTP/HTTPS
+554: RTSP (Real Time Streaming Protocol)
+443: HTTPS
+8000, 8888: Dịch vụ quản lý hoặc phát video
+Cú pháp kết hợp:
+
+plaintext
+Sao chép
+Chỉnh sửa
+"IP Camera" country:KH port:80,8080,554,443,8000,8888
+3. Tìm camera với giao diện quản trị không bảo vệ (mật khẩu mặc định hoặc không có mật khẩu)
+Dịch vụ không có xác thực:
+plaintext
+Sao chép
+Chỉnh sửa
+"server: goahead" country:KH
+
+less
+Sao chép
+Chỉnh sửa
+- **GoAhead**: Một máy chủ web thường được sử dụng trên nhiều thiết bị IoT, bao gồm camera IP.
+
+- **Tìm giao diện đăng nhập mặc định**:
+```plaintext
+"root" OR "admin" country:KH
+Tìm các thiết bị có từ khóa "root" hoặc "admin" (tài khoản mặc định phổ biến).
+Bạn có thể thêm bộ lọc theo cổng để tinh chỉnh kết quả:
+plaintext
+Sao chép
+Chỉnh sửa
+"root" OR "admin" country:KH port:80,8080 ```
+
+Tìm giao diện có khả năng truyền video trực tiếp:
+plaintext
+Sao chép
+Chỉnh sửa
+"RTSP" "port:554" country:KH
+
+yaml
+Sao chép
+Chỉnh sửa
+- Tìm kiếm các camera sử dụng giao thức RTSP.
+
+---
+
+### 4. **Tìm camera với giao diện không mã hóa**
+Tìm kiếm giao diện quản trị không được mã hóa SSL/TLS:
+```plaintext
+"http" "200 OK" "Server" country:KH
+"200 OK": Chỉ định các dịch vụ trả về trạng thái HTTP thành công.
+"Server": Lọc các thiết bị cung cấp giao diện quản trị.
